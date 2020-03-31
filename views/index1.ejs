@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Padraig & Paulina's Cloud Compuing Project</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script defer src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+  <script defer src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+  <script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
+  <script defer src="/javascripts/fileUpload.js"></script>
+  <script type="application/javascript" src="//cdn.rawgit.com/Alorel/console-log-html/master/console-log-html.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Style the body */
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+    }
+
+    /* Header/logo Title */
+    .header {
+      padding: 80px;
+      text-align: center;
+      background-image: url("https://i.ibb.co/rmDWD3M/IMG-20200327-195306-EFFECTS.jpg");
+      background-size: 100% 100%;
+      color: white;
+    }
+
+    /* Increase the font size of the heading */
+    .header h1 {
+      font-size: 40px;
+    }
+
+    /* Sticky navbar - toggles between relative and fixed, depending on the scroll position. It is positioned relative until a given offset position is met in the viewport - then it "sticks" in place (like position:fixed). The sticky value is not supported in IE or Edge 15 and earlier versions. However, for these versions the navbar will inherit default position */
+    .navbar {
+      overflow: hidden;
+      background-color: #333;
+      position: sticky;
+      position: -webkit-sticky;
+      top: 0;
+    }
+
+    /* Style the navigation bar links */
+    .navbar a {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 20px;
+      text-decoration: none;
+    }
+
+
+    /* Right-aligned link */
+    .navbar a.right {
+      float: right;
+    }
+
+    /* Change color on hover */
+    .navbar a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    /* Active/current link */
+    .navbar a.active {
+      background-color: #666;
+      color: white;
+    }
+
+    .navbar form {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 20px;
+      text-decoration: none;
+    }
+
+    .navbar form.right {
+      float: right;
+      display: inline;
+    }
+
+    /* Change color on hover */
+    .navbar form:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    /* Active/current link */
+    .navbar form.active {
+      background-color: #666;
+      color: white;
+    }
+
+    .link-button {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    .link-button:focus {
+      outline: none;
+    }
+
+    .link-button:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    /* Column container */
+    .row {
+      display: -ms-flexbox; /* IE10 */
+      display: flex;
+      -ms-flex-wrap: wrap; /* IE10 */
+      flex-wrap: wrap;
+    }
+
+    /* Create two unequal columns that sits next to each other */
+    /* Sidebar/left column */
+    .side {
+      -ms-flex: 30%; /* IE10 */
+      flex: 30%;
+      background-color: #ecf1ed;
+      padding: 20px;
+    }
+
+    /* Main column */
+    .main {
+      -ms-flex: 70%; /* IE10 */
+      flex: 70%;
+      background-color: white;
+      padding: 20px;
+    }
+
+    /* Fake image, just for this example */
+    .fakeimg {
+      background-color: #aaa;
+      width: 100%;
+      padding: 20px;
+    }
+
+    #host
+    {
+      width:100%;
+      font-size:14pt;
+    }
+
+    #topic
+    {
+      width:100%;
+      font-size:14pt;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 20px;
+      text-align: center;
+      background: #ddd;
+    }
+
+    /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 700px) {
+      .row {
+        flex-direction: column;
+      }
+    }
+
+    /* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+    @media screen and (max-width: 400px) {
+      .navbar a {
+        float: none;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Cloud Computing Project</h1>
+  <p>A <b>graphical</b> AWS IoT Device MQTT Client</p>
+</div>
+
+<div class="navbar">
+  <form action="/home" method="GET" class="active">
+    <button type="submit" class="link-button">Home</button>
+  </form>
+  <a href="/pages/about.html">About</a>
+  <a href="/pages/contact.html">Contact</a>
+  <form action="/appJS" method="GET">
+    <button type="submit" class="link-button">app.js</button>
+  </form>
+  <form action="/indexJS" method="GET">
+    <button type="submit" class="link-button">index.js</button>
+  </form>
+  <form action="/loginHTML" method="GET">
+    <button type="submit" class="link-button">login.ejs</button>
+  </form>
+  <form action="/indexHTML" method="GET">
+    <button type="submit" class="link-button">index.ejs</button>
+  </form>
+  <a href="/pages/app.html">app.js</a>
+  <form action="/logout?_method=DELETE" metchod="POST" class="right">
+    <button type="submit" class="link-button">Log Out</button>
+  </form>
+</div>
+
+<div class="row">
+  <div class="side">
+    <h2>Hi <%= name %></h2>
+    <h5>Photo of me:</h5>
+    <div class="fakeimg" style="height:200px;">Image</div>
+    <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+    <h3>More Text</h3>
+    <p>Lorem ipsum dolor sit ame.</p>
+    <div class="fakeimg" id="input" style="height:60px;">Message received: </div><br>
+    <div class="fakeimg" style="height:60px;">Image</div><br>
+    <div class="fakeimg" style="height:60px;">Image</div>
+  </div>
+  <div class="main">
+    <h2>Cloud Compuing Project</h2>
+    <h5>A graphical AWS IoT MQTT Client, March 31, 2020</h5>
+      <form action="/home" method="post" id="myForm">
+        <label for="privateKey">Upload MQTT Authentification: Private Key</label>
+        <input type="file" name="key" id="key" class="filepond" required>
+        <label for="rootCA">Upload MQTT Authentification: Root CA</label>
+        <input type="file" name="root" id="root" class="filepond" required>
+        <label for="cert">Upload MQTT Authentification: Cert</label>
+        <input type="file" name="cert" id="cert" class="filepond" required><br>
+        <p>Now to enter credentials for AWS Device IoT connection..</p><br>
+        <label for="host">AWS IoT Host Address:</label><br>
+        <input type="text" id="host" name="host" width="100"><br><br><br>
+        <label for="topic">Broker topic name to subscribe to:</label><br>
+        <input type="text" id="topic" name="topic">
+      </form>
+      <br>
+      <button type="button" id="submitBtn">Submit Form</button>
+      <button type="button" id="dashButton">Enter</button>
+      <br><br>
+      <% if (host != "") { %>
+      Host:  <strong><%= host %></strong>
+      <% } %>
+      <br><br>
+      <% if (topic != "") { %>
+      Topic:  <strong><%= topic %></strong>
+      <% } %>
+      <br><br>
+      <% if (root != "") { %>
+      <strong>Root: </strong><br>  <%= root %>
+      <% } %>
+      <br><br>
+      <% if (cert != "") { %>
+      <strong>Cert: </strong><br>  <%= cert %>
+      <% } %>
+      <br><br>
+      <% if (key != "") { %>
+      <strong>Key: </strong><br>  <%= key %>
+      <% } %>
+      <br><br>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <h2>Footer</h2>
+</div>
+<script>
+  setInterval(function() {
+    updateMessage();
+  }, 5000);
+  $(document).ready(function(){
+    $("#submitBtn").click(function(){
+      $("#myForm").submit(); // Submit the form
+    });
+  });
+  $(document).ready(function(){
+    $("#dashButton").click(function(){
+      $.getScript("mqtt.js");
+    });
+  });
+  function updateMessage() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("input").innerHTML = "Message received: " + this.responseText;
+      }
+    };
+    xhttp.open("POST", "/getMessage", true);
+    xhttp.send();
+  }
+</script>
+</body>
+</html>

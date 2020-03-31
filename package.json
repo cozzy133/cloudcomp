@@ -1,0 +1,43 @@
+{
+  "name": "current-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "devStart": "nodemon app.js"
+  },
+  "author": "Padraig O Cosgora, Paulina Osikoya",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.2",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "method-override": "^3.0.0",
+    "express": "^4.17.1",
+    "express-flash": "0.0.2",
+    "express-session": "^1.16.2",
+    "express-validator": "^6.4.0",
+    "express-fileupload": "^1.1.6",
+    "express-handlebars": "^4.0.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "latest",
+    "fs": "^0.0.1-security",
+    "os": "^0.1.1",
+    "path": "^0.12.7",
+    "cors": "^2.8.5",
+    "async": "^3.2.0",
+    "morgan": "^1.10.0",
+    "mongodb": "^3.5.5",
+    "mongoose": "^5.9.6",
+    "aws-iot-device-sdk": "latest",
+    "console-log-html": "latest",
+    "http": "^0.0.1-security",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.0.0",
+    "nodemon": "^1.19.1"
+  }
+}
