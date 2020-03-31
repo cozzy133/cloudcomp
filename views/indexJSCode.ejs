@@ -1,4 +1,49 @@
-const express = require("express")
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Padraig & Paulina's Cloud Compuing Project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/style/indexJSCode.css" />
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script defer src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+    <script defer src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+    <script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    <script defer src="/javascripts/fileUpload.js"></script>
+    <script type="application/javascript" src="//cdn.rawgit.com/Alorel/console-log-html/master/console-log-html.min.js"></script>
+</head>
+<body>
+
+<div class="header">
+    <h1>Cloud Computing Project</h1>
+    <p>A <b>graphical</b> AWS IoT Device MQTT Client</p>
+</div>
+
+<div class="navbar">
+    <form action="/home" method="GET" >
+        <button type="submit" class="link-button">Home</button>
+    </form>
+    <a href="/pages/about.html">About</a>
+    <a href="/pages/contact.html">Contact</a>
+    <form action="/appJS" method="GET">
+        <button type="submit" class="link-button" class="active">app.js</button>
+    </form>
+    <form action="/indexJS" method="GET" >
+        <button type="submit" class="link-button">index.js</button>
+    </form>
+    <a href="/pages/login.txt">login.ejs</a>
+    <a href="/pages/index.txt">index.ejs</a>
+    <form action="/passport" method="GET">
+        <button type="submit" class="link-button">passport-config.js</button>
+    </form>
+    <form action="/logout?_method=DELETE" metchod="POST" class="right">
+        <button type="submit" class="link-button">Log Out</button>
+    </form>
+</div>
+    <div class="main">
+        <h2>index.js</h2>
+        <pre><code class="javascript">const express = require("express")
 const router = express.Router()
 const passport = require('passport')
 var mongoose = require('mongoose')
@@ -7,13 +52,11 @@ var fs = require('fs')
 var awsIot = require('aws-iot-device-sdk');
 var userModel = require('../models/users')
 var Account = require('../models/account');
-const dotenv = require('dotenv');
-dotenv.config();
 
 var testTopic = "", prevMessage = ""; // mqtt message strings
 var published = "", prevPublished = "", publicTopic = "";
 
-var mongDB = process.env.MONGOOSE;
+var mongDB = <"database address">
 mongoose.connect(mongDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Get the default connection
@@ -65,10 +108,6 @@ router.get('/appJS', checkAuthenticated, (req, res) => {
 
 router.get('/indexJS', checkAuthenticated, (req, res) => {
     res.render('indexJSCode.ejs',{name: req.user.name});
-})
-
-router.get('/passport', checkAuthenticated, (req, res) => {
-    res.render('passportConfig.ejs',{name: req.user.name});
 })
 
 router.get('/home', checkAuthenticated, (req, res) => {
@@ -188,7 +227,7 @@ router.post('/home', checkAuthenticated, (req, res) => {
 })
 
 router.get('/login', checkNotAuthenticated, (req, res) => {
-    res.render('login3.ejs')
+    res.render('login2.ejs')
 })
 
 router.post('/login', checkNotAuthenticated, passport.authenticate('local', {
@@ -283,3 +322,21 @@ function getFilesizeInBytes(filename) {
 
 
 module.exports = router;
+
+
+            </code></pre>
+    </div>
+</div>
+</div>
+<div class="footer">
+    <h4>Cloud Computing Project by Padraig & Paulina</h4>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#submitBtn").click(function(){
+            $("#myForm").submit(); // Submit the form
+        });
+    });
+</script>
+</body>
+</html>

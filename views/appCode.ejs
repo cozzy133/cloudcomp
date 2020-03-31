@@ -1,20 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/default.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
 <head>
-    <meta charset="UTF-8">
-    <title>App.js</title>
+  <title>Padraig & Paulina's Cloud Compuing Project</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/style/appCode.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script defer src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+  <script defer src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+  <script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
+  <script defer src="/javascripts/fileUpload.js"></script>
+  <script type="application/javascript" src="//cdn.rawgit.com/Alorel/console-log-html/master/console-log-html.min.js"></script>
 </head>
-<body style="align-content: center">
-<pre><code class="javascript">/*
-app.js; server file for NodeJS application
-    Authors: Padraig O Cosgora, Paulina Osikoya
-    Project: AWS IoT
+<body>
 
- */const express = require('express')
+<div class="header">
+  <h1>Cloud Computing Project</h1>
+  <p>A <b>graphical</b> AWS IoT Device MQTT Client</p>
+</div>
+
+<div class="navbar">
+  <form action="/home" method="GET" >
+    <button type="submit" class="link-button">Home</button>
+  </form>
+  <a href="/pages/about.html">About</a>
+  <a href="/pages/contact.html">Contact</a>
+  <form action="/appJS" method="GET">
+    <button type="submit" class="link-button" class="active">app.js</button>
+  </form>
+  <form action="/indexJS" method="GET" >
+    <button type="submit" class="link-button">index.js</button>
+  </form>
+  <a href="/pages/login.txt">login.ejs</a>
+  <a href="/pages/index.txt">index.ejs</a>
+  <form action="/passport" method="GET">
+    <button type="submit" class="link-button">passport-config.js</button>
+  </form>
+  <form action="/logout?_method=DELETE" metchod="POST" class="right">
+    <button type="submit" class="link-button">Log Out</button>
+  </form>
+</div>
+
+  <div class="main">
+    <h2>app.js</h2>
+    <pre><code class="javascript">
+const express = require('express')
 const app = express()
 const passport = require('passport')
 const flash = require('express-flash')
@@ -50,8 +81,6 @@ app.use(session({
 const initializePassport = require('./passport-config')
 initializePassport(
     passport,
-    //email => User.find({email: req.body.email}),
-    //id => User.find({id: req.body.id})
     email => users.find(user => user.email === email),
     id => users.find(user => user.entry === id)
 )
@@ -65,13 +94,10 @@ app.use("/login", indexRouter)
 app.use("/logout", indexRouter)
 app.use("/upload", indexRouter)
 app.use("/getMessage", indexRouter)
-//app.use(express.static('/public'))
+app.use("/getPublished", indexRouter)
+app.use("/appJS", indexRouter)
+app.use("/indexJS", indexRouter)
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use('/static', express.static(path.join(__dirname, '/pages')))
-
-
-//app.use('/about', indexRouter);
-//app.use('/contact', express.static(path.join(__dirname, 'public/pages')));
 
 var Account = require("./models/account")
 
@@ -112,11 +138,24 @@ function checkNotAuthenticated(req, res, next) {
 }
 
 app.listen(app.get('port'), function(){
-  //console.log(("Express server listening on port " + app.get('port')))
-    console.log("Express server listening on port 3000")
+  console.log(("Express server listening on port " + app.get('port')))
 });
 
 module.exports = app;
-</code></pre>
+
+            </code></pre>
+  </div>
+</div>
+</div>
+<div class="footer">
+  <h4>Cloud Computing Project by Padraig & Paulina</h4>
+</div>
+<script>
+  $(document).ready(function(){
+    $("#submitBtn").click(function(){
+      $("#myForm").submit(); // Submit the form
+    });
+  });
+</script>
 </body>
 </html>

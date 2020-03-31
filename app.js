@@ -34,8 +34,6 @@ app.use(session({
 const initializePassport = require('./passport-config')
 initializePassport(
     passport,
-    //email => User.find({email: req.body.email}),
-    //id => User.find({id: req.body.id})
     email => users.find(user => user.email === email),
     id => users.find(user => user.entry === id)
 )
@@ -49,10 +47,10 @@ app.use("/login", indexRouter)
 app.use("/logout", indexRouter)
 app.use("/upload", indexRouter)
 app.use("/getMessage", indexRouter)
+app.use("/getPublished", indexRouter)
 app.use("/appJS", indexRouter)
 app.use("/indexJS", indexRouter)
-app.use("/indexHTML", indexRouter)
-app.use("/loginHTML", indexRouter)
+app.use("/passport", indexRouter)
 app.use(express.static(path.join(__dirname, 'public')));
 
 var Account = require("./models/account")
@@ -94,8 +92,7 @@ function checkNotAuthenticated(req, res, next) {
 }
 
 app.listen(app.get('port'), function(){
-  //console.log(("Express server listening on port " + app.get('port')))
-    console.log("Express server listening on port 3000")
+  console.log(("Express server listening on port " + app.get('port')))
 });
 
 module.exports = app;

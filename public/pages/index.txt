@@ -4,11 +4,12 @@
   <title>Padraig & Paulina's Cloud Compuing Project</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet"
-        href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/default.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
+  <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script defer src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+  <script defer src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+  <script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
+  <script defer src="/javascripts/fileUpload.js"></script>
   <script type="application/javascript" src="//cdn.rawgit.com/Alorel/console-log-html/master/console-log-html.min.js"></script>
   <style>
     * {
@@ -146,6 +147,19 @@
       padding: 20px;
     }
 
+    .avatar {
+      background-image: url("https://www.w3schools.com/howto/img_avatar.png");
+      background-size: 100% 100%;
+      width: 100%;
+      padding: 20px;
+    }
+
+    .message {
+      background-color: #aaa;
+      width: 100%;
+      padding: 20px;
+    }
+
     #host
     {
       width:100%;
@@ -206,7 +220,6 @@
   <form action="/indexHTML" method="GET">
     <button type="submit" class="link-button">index.ejs</button>
   </form>
-  <a href="/pages/app.html">app.js</a>
   <form action="/logout?_method=DELETE" metchod="POST" class="right">
     <button type="submit" class="link-button">Log Out</button>
   </form>
@@ -215,156 +228,98 @@
 <div class="row">
   <div class="side">
     <h2>Hi <%= name %></h2>
-    <h5>Photo of me:</h5>
-    <div class="fakeimg" style="height:200px;">Image</div>
-    <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
-    <h3>More Text</h3>
-    <p>Lorem ipsum dolor sit ame.</p>
-    <div class="fakeimg" id="input" style="height:60px;">Message received: </div><br>
-    <div class="fakeimg" style="height:60px;">Image</div><br>
-    <div class="fakeimg" style="height:60px;">Image</div>
+    <h5>Avatar:</h5>
+    <div class="avatar" style="height:200px;"></div>
+    <h3>Incoming messages received</h3>
+    <div class="message" style="height:60px;"><span  id="input">Message received: </span></div><br>
+    <h3>Outgoing messages sent</h3>
+    <div class="message" style="height:60px;"><span  id="output">Message published:</span></div><br>
   </div>
   <div class="main">
     <h2>Cloud Compuing Project</h2>
     <h5>A graphical AWS IoT MQTT Client, March 31, 2020</h5>
-    <pre><code class="javascript">/*
-app.js; server file for NodeJS application
-    Authors: Padraig O Cosgora, Paulina Osikoya
-    Project: AWS IoT
-
- */const express = require('express')
-const app = express()
-const passport = require('passport')
-const flash = require('express-flash')
-const session = require('express-session')
-const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
-const cors = require('cors');
-const path = require('path');
-const morgan = require('morgan');
-const methodOverride = require('method-override')
-const fileUpload = require('express-fileupload')
-
-const users = []
-
-app.set('port', 3000);
-app.use(fileUpload({
-  createParentPath: true
-}));
-app.set('views', __dirname + '/views')
-app.set('view-engine', 'ejs')
-app.set('view options', { layout: false })
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.urlencoded({ extended: false }))
-app.use(cors());
-app.use(flash())
-app.use(morgan('dev'));
-app.use(session({
-  secret: "secret",
-  resave: false,
-  saveUninitialized: false
-}))
-const initializePassport = require('./passport-config')
-initializePassport(
-    passport,
-    //email => User.find({email: req.body.email}),
-    //id => User.find({id: req.body.id})
-    email => users.find(user => user.email === email),
-    id => users.find(user => user.entry === id)
-)
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(methodOverride('_method'))
-
-const indexRouter = require('./routes/index')
-app.use("/", indexRouter)
-app.use("/login", indexRouter)
-app.use("/logout", indexRouter)
-app.use("/upload", indexRouter)
-app.use("/getMessage", indexRouter)
-//app.use(express.static('/public'))
-app.use(express.static(path.join(__dirname, 'public')));
-//app.use('/static', express.static(path.join(__dirname, '/pages')))
-
-
-//app.use('/about', indexRouter);
-//app.use('/contact', express.static(path.join(__dirname, 'public/pages')));
-
-var Account = require("./models/account")
-
-app.post('/register', checkNotAuthenticated, async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    var entry = Date.now().toString();
-    await Account.create({
-          id: entry,
-          name: req.body.name,
-          email: req.body.email,
-          password: hashedPassword},
-        function(err){
-          if (err) {
-            console.log(err);
-            return;
-          }
-          req.flash('info', 'Successful Registration');
-          res.redirect('/login')
-        });
-    users.push({
-      entry: entry,
-      name: req.body.name,
-      email: req.body.email,
-      password: hashedPassword
-    })
-  } catch {
-    req.flash('info', 'Unsuccessful Registration');
-    res.redirect('/login')
-  }
-})
-
-function checkNotAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return res.redirect('/')
-  }
-  next()
-}
-
-app.listen(app.get('port'), function(){
-  //console.log(("Express server listening on port " + app.get('port')))
-    console.log("Express server listening on port 3000")
-});
-
-module.exports = app;
-</code></pre>
+      <form action="/home" method="post" id="myForm">
+        <label for="privateKey">Upload MQTT Authentification: Private Key</label>
+        <input type="file" name="key" id="key" class="filepond" required>
+        <label for="rootCA">Upload MQTT Authentification: Root CA</label>
+        <input type="file" name="root" id="root" class="filepond" required>
+        <label for="cert">Upload MQTT Authentification: Cert</label>
+        <input type="file" name="cert" id="cert" class="filepond" required><br>
+        <p>Now to enter credentials for AWS Device IoT connection..</p><br>
+        <label for="host">AWS IoT Host Address:</label><br>
+        <input type="text" id="host" name="host" width="100"><br><br><br>
+        <label for="topic">Broker topic name to subscribe to:</label><br>
+        <input type="text" id="topic" name="topic" width="100"><br><br>
+        <label for="pub">Broker topic name to publish to:</label><br>
+        <input type="text" id="pub" name="pub" width="100"><br><br>
+        <label for="pub1">Message to publish:</label><br>
+        <input type="text" id="pub1" name="pub1" width="100">
+      </form>
+      <br>
+      <button type="button" id="submitBtn">Submit Form</button>
+      <br><br>
+      <% if (host != "") { %>
+      Host:  <strong><%= host %></strong>
+      <% } %>
+      <br><br>
+      <% if (topic != "") { %>
+      Topic:  <strong><%= topic %></strong>
+      <% } %>
+      <br><br>
+      <% if (root != "") { %>
+      <strong>Root: </strong><br>  <%= root %>
+      <% } %>
+      <br><br>
+      <% if (cert != "") { %>
+      <strong>Cert: </strong><br>  <%= cert %>
+      <% } %>
+      <br><br>
+      <% if (key != "") { %>
+      <strong>Key: </strong><br>  <%= key %>
+      <% } %>
+      <br><br>
+    </div>
   </div>
 </div>
 <div class="footer">
-  <h2>Footer</h2>
+  <h4>Cloud Computing Project by Padraig & Paulina</h4>
 </div>
 <script>
-  setInterval(function() {
-    updateMessage();
-  }, 5000);
+  // setInterval(function() {
+  //   updateMessage();
+  // }, 5000);
   $(document).ready(function(){
     $("#submitBtn").click(function(){
       $("#myForm").submit(); // Submit the form
     });
   });
-  $(document).ready(function(){
-    $("#dashButton").click(function(){
-      $.getScript("mqtt.js");
-    });
-  });
-  function updateMessage() {
+  function updateMessage(){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("input").innerHTML = "Message received: " + this.responseText;
+        document.getElementById("input").innerHTML = this.responseText;
       }
     };
     xhttp.open("POST", "/getMessage", true);
     xhttp.send();
   }
+
+  function sentMessage(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("output").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("POST", "/getPublished", true);
+    xhttp.send();
+  }
+
+  window.setInterval(function(){
+    updateMessage();
+    sentMessage();
+  }, 5000);
+
 </script>
 </body>
 </html>

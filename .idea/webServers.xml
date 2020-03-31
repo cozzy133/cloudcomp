@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="3665ee21-e565-42af-b32c-a2fe5f9188ce" name="ec2" url="http://ec2-54-82-224-111.compute-1.amazonaws.com:8000">
+        <fileTransfer host="ec2-54-82-224-111.compute-1.amazonaws.com" port="22" privateKey="C:\Users\cozzy\Downloads\ubuntuinstance.ppk" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

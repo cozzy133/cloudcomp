@@ -34,7 +34,8 @@
     "aws-iot-device-sdk": "latest",
     "console-log-html": "latest",
     "http": "^0.0.1-security",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
     "dotenv": "^8.0.0",
