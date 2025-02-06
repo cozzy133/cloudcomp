@@ -30,7 +30,7 @@
     "async": "^3.2.0",
     "morgan": "^1.10.0",
     "mongodb": "^3.5.5",
-    "mongoose": "^5.9.6",
+    "mongoose": "^8.10.0",
     "aws-iot-device-sdk": "latest",
     "console-log-html": "latest",
     "http": "^0.0.1-security",
